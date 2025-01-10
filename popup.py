@@ -1,4 +1,5 @@
 import tkinter as tk
+import webbrowser
 
 # Function to start moving the window
 def start_move(event):
@@ -16,11 +17,17 @@ def move_window(event):
 def quit_application():
     root.destroy()
 
+# Function to open Amazon.com
+def open_amazon():
+    webbrowser.open("https://www.amazon.com")
+
+
 # Create the main window
 root = tk.Tk()
 root.title("Example")
 root.geometry("250x125")
 root.configure(bg="lightblue")
+root.attributes("-topmost", True)  # Bring window to the front
 root.overrideredirect(True)  # Remove window border
 
 # Add a frame to allow moving the window
@@ -38,6 +45,10 @@ title_bar.bind("<B1-Motion>", move_window)
 # Add a Quit button
 quit_button = tk.Button(root, text="Quit", command=quit_application, width=20, height=2)
 quit_button.pack(side=tk.BOTTOM, pady=5)
+
+# Add 'Open Amazon.com' button
+open_button = tk.Button(root, text="Open Amazon", command=open_amazon, width=20, height=2)
+open_button.pack(side=tk.BOTTOM, pady=5)
 
 # Center the window horizontally and set vertical position to 100
 window_width = 250
