@@ -21,6 +21,16 @@ def quit_application():
 def open_amazon():
     webbrowser.open("https://www.amazon.com")
 
+# Function to self-destruct the application
+def self_destruct(count=3):
+    if count == 3:
+        self_destruct_button.config(state=tk.DISABLED)  # Disable the button at the start of the countdown
+        open_button.config(state=tk.DISABLED)  # Disable the 'Open Amazon' button
+    if count > 0:
+        self_destruct_button.config(text=f"Self-destructing in ({count})")
+        root.after(1000, self_destruct, count-1)
+    else:
+        root.destroy()
 
 # Create the main window
 root = tk.Tk()
@@ -29,6 +39,13 @@ root.geometry("250x125")
 root.configure(bg="lightblue")
 root.attributes("-topmost", True)  # Bring window to the front
 root.overrideredirect(True)  # Remove window border
+
+# Center the window horizontally and set vertical position to 100
+window_width = 250
+window_height = 125
+screen_width = root.winfo_screenwidth()
+x_coordinate = int((screen_width / 2) - (window_width / 2))
+root.geometry(f"{window_width}x{window_height}+{x_coordinate}+100")
 
 # Add a frame to allow moving the window
 title_bar = tk.Frame(root, bg="#9B9B9B", relief="raised", bd=2)
@@ -42,20 +59,13 @@ title_label.pack(side=tk.LEFT, padx=10)
 title_bar.bind("<Button-1>", start_move)
 title_bar.bind("<B1-Motion>", move_window)
 
-# Add a Quit button
-quit_button = tk.Button(root, text="Quit", command=quit_application, width=20, height=2)
-quit_button.pack(side=tk.BOTTOM, pady=5)
+# Add a Self-Destruct button
+self_destruct_button = tk.Button(root, text="Self-Destruct", command=lambda: self_destruct(3), width=20, height=2)
+self_destruct_button.pack(side=tk.BOTTOM, pady=5)
 
 # Add 'Open Amazon.com' button
 open_button = tk.Button(root, text="Open Amazon", command=open_amazon, width=20, height=2)
 open_button.pack(side=tk.BOTTOM, pady=5)
-
-# Center the window horizontally and set vertical position to 100
-window_width = 250
-window_height = 125
-screen_width = root.winfo_screenwidth()
-x_coordinate = int((screen_width / 2) - (window_width / 2))
-root.geometry(f"{window_width}x{window_height}+{x_coordinate}+100")
 
 # Start the Tkinter event loop
 root.mainloop()
